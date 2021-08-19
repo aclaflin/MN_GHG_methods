@@ -1,0 +1,125 @@
+# Maps
+
+```{r out.width='95%', echo=F}
+knitr::opts_chunk$set(echo = T, warning = F, message = F)
+dt_options <- list(scrollX = T, autoWidth = T, searching = F, 
+                   ordering = F, lengthChange = F, paginate = F, info = F)
+```
+
+
+
+```{r air-sites-intro, echo=F, fig.height=4} 
+library(tidyverse)
+library(leaflet)
+
+# Load site coordinates
+sites <- read_csv('https://raw.githubusercontent.com/MPCA-air/aqi-watch/master/data-raw/locations.csv')
+
+# Add basemap
+leaflet(sites[c(70, 152, sample(5:150, 15, replace = F)), ]) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addMarkers()
+```
+
+
+## Interactive map of air monitors {-}
+
+<div class = "toggle"><button class = "btn_code">Show __R__ code</button>
+
+**Site map**
+```{r air-sites, eval=F} 
+library(tidyverse)
+library(leaflet)
+
+# Load site coordinates
+sites <- read_csv('https://raw.githubusercontent.com/MPCA-air/aqi-watch/master/data-raw/locations.csv')
+
+# Map sites
+leaflet(sites) %>%
+   addMarkers()
+```
+
+
+**Add a basemap**
+```{r air-sites-base} 
+# Add basemap
+leaflet(sites) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addMarkers()
+```
+
+**Add pop-ups**
+```{r darkbase-map, eval=T} 
+# Add site name popup labels and dark basemap
+leaflet(sites) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  addMarkers(popup = ~`Site Name`)
+```
+
+</div>
+
+
+## Creating shapefiles in R {-}
+
+The code below shows how to create a shapefile from air monitoring locations. This map is then joined to the Environmental Justice status for Census tracts.
+
+
+<div class = "toggle"><button class = "btn_code">Show __R__ code</button>
+
+```{r shapefiles, eval=F}
+library(tidyverse)
+library(stringr)
+library(RcppRoll)
+library(lubridate)
+library(car)
+library(DT)
+
+data <- read_csv('https://raw.githubusercontent.com/MPCA-air/air-methods/master/airtoxics_data_2009_2013.csv')
+
+colnames(data) <- c("aqs_id", "poc", "param_code", "date", "conc", "null_code", "md_limit", "pollutant", "year", "cas")
+
+dt_options <- list(scrollX = T, autoWidth = T, searching = F, ordering=F, lengthChange = F, paginate=F, info=F)
+
+
+########################################################################
+## Spatial join to census tracts and then left_join to EJ areas        #
+########################################################################
+coords <- monitoring_locations[, c("Longitude", "Latitude")]
+
+point_source_wypoints <- SpatialPointsDataFrame(coords, 
+                                                data = data, 
+                                                proj4string = CRS('+proj=longlat +ellps=WGS84'))
+
+point_source_wypoints <- spTransform(point_source_wypoints, 
+                                     CRS('+proj=utm +zone=15 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'))
+
+census_tracts <- readOGR(dsn   = "R:/demographics", 
+                         layer = "census_2010_tracts_usboc", 
+                         stringsAsFactors = FALSE)
+
+point_sources_files_geo <- point.in.poly(point_source_wypoints, census_tracts)
+
+writeOGR(obj    = point_sources_files_geo, 
+         dsn    = "X:/Programs/Air_Quality_Programs/Air Monitoring Data and Risks/0 Methods and documentation/3. Analysis methods/Web book/air-methods", 
+         layer  = "airmonitors_tracts", 
+         driver = "ESRI Shapefile")
+
+point_sources_tracts_dbf <- read.dbf("X:/Programs/Air_Quality_Programs/Air Monitoring Data and Risks/0 Methods and documentation/3. Analysis methods/Web book/air-methods/airmonitors_tracts.dbf", as.is = TRUE)
+
+ej_layers <- read.dbf("X:/Agency_Files/EJ/GIS/Shapefiles/ACS_2014_5Yr_Tract_MNPovPPC.dbf", as.is = TRUE)
+
+ej_layers <- ej_layers[, c("GEOID", "ov50per_nw", "prp_under1")]
+
+point_sources_tracts_ej <- left_join(point_sources_tracts_dbf, ej_layers, by = c("GEOID10"="GEOID"))
+
+names(point_sources_tracts_ej) <- c("Facility_ID",  "Facility_Name", "Resident_Cancer_Risk", "Resident_Hazard_Quotient", "CAS", "Pollutant",  "Latitude", "Longitude", "Annual_PM25_Concentration", "STATEFP", "COUNTYF", "TRACTCE", "GEOID10", "NAME10", "NAMELSA", "MTFCC10", "FUNCSTA", "ALAND10", "AWATER1", "INTPTLA", "INTPTLO", "ov50per_nw", "prp_under1")
+
+#Output file name (including path)
+point_sources_tracts_ej <- unique(point_sources_tracts_ej)
+```
+
+</div>
+
+<br>[Back to top](#maps)
+
+

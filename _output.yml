@@ -1,0 +1,16 @@
+bookdown::gitbook:
+  css: style.css
+  number_sections: true
+  config:
+    download: ["pdf", "epub"]
+    sharing: false
+    toc:
+      collapse: section
+      before: |
+        <li><a href="https://mpca-air.github.io/air-methods">Methods for air data analysis</a></li>
+      after: |
+        <li><a href="https://github.com/MPCA-air" target="blank">Created by MPCA-air</a></li>
+    edit:
+      link: https://github.com/MPCA-air/air-methods/edit/master/%s
+  includes:
+    after_body: show_code.html

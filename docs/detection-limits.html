@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title> Detection limits | air-methods.utf8</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content=" Detection limits | air-methods.utf8" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/MPCA-air/air-methods" />
+  <meta property="og:image" content="https://github.com/MPCA-air/air-methodsimages/cover.jpeg" />
+  
+  <meta name="github-repo" content="MPCA-air/air-methods" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content=" Detection limits | air-methods.utf8" />
+  
+  
+  <meta name="twitter:image" content="https://github.com/MPCA-air/air-methodsimages/cover.jpeg" />
+
+<meta name="author" content="" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="collocated-monitors.html"/>
+<link rel="next" href="completeness-checks.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.13/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://mpca-air.github.io/air-methods">Methods for air data analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="best-practices.html"><a href="best-practices.html"><i class="fa fa-check"></i><b>1</b> Best practices</a><ul>
+<li class="chapter" data-level="1.1" data-path="best-practices.html"><a href="best-practices.html#welcome-to-the-tidyverse"><i class="fa fa-check"></i><b>1.1</b> Welcome to the Tidyverse</a></li>
+<li class="chapter" data-level="1.2" data-path="best-practices.html"><a href="best-practices.html#keep-r-updated"><i class="fa fa-check"></i><b>1.2</b> Keep R updated</a></li>
+<li class="chapter" data-level="1.3" data-path="best-practices.html"><a href="best-practices.html#script-organization"><i class="fa fa-check"></i><b>1.3</b> Script organization</a></li>
+<li class="chapter" data-level="1.4" data-path="best-practices.html"><a href="best-practices.html#divide-and-conquer"><i class="fa fa-check"></i><b>1.4</b> Divide and conquer</a></li>
+<li class="chapter" data-level="1.5" data-path="best-practices.html"><a href="best-practices.html#codebooks-metadata-and-data-dictionaries"><i class="fa fa-check"></i><b>1.5</b> Codebooks, metadata, and data dictionaries</a></li>
+<li class="chapter" data-level="1.6" data-path="best-practices.html"><a href="best-practices.html#data-formatting"><i class="fa fa-check"></i><b>1.6</b> Data formatting</a></li>
+<li class="chapter" data-level="1.7" data-path="best-practices.html"><a href="best-practices.html#pollutant-names"><i class="fa fa-check"></i><b>1.7</b> Pollutant names</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="get-data.html"><a href="get-data.html"><i class="fa fa-check"></i><b>2</b> Get data</a><ul>
+<li class="chapter" data-level="2.1" data-path="get-data.html"><a href="get-data.html#air-monitoring"><i class="fa fa-check"></i><b>2.1</b> Air monitoring</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="get-data.html"><a href="get-data.html#AQS"><i class="fa fa-check"></i><b>2.1.1</b> Retrieving data from AQS</a></li>
+<li class="chapter" data-level="2.1.2" data-path="get-data.html"><a href="get-data.html#rqamd"><i class="fa fa-check"></i><b>2.1.2</b> Retrieving data from AQS DataMart</a></li>
+<li class="chapter" data-level="2.1.3" data-path="get-data.html"><a href="get-data.html#aqi-now"><i class="fa fa-check"></i><b>2.1.3</b> Current AQI observations</a></li>
+<li class="chapter" data-level="2.1.4" data-path="get-data.html"><a href="get-data.html#wairsites"><i class="fa fa-check"></i><b>2.1.4</b> WAIR Site information table</a></li>
+<li class="chapter" data-level="2.1.5" data-path="get-data.html"><a href="get-data.html#monitors"><i class="fa fa-check"></i><b>2.1.5</b> AirNow:Active AQI monitors</a></li>
+<li class="chapter" data-level="2.1.6" data-path="get-data.html"><a href="get-data.html#EPAsites"><i class="fa fa-check"></i><b>2.1.6</b> EPA Google Earth Site Maps</a></li>
+<li class="chapter" data-level="2.1.7" data-path="get-data.html"><a href="get-data.html#lims"><i class="fa fa-check"></i><b>2.1.7</b> Retrieving data from LIMS via Tableau</a></li>
+<li class="chapter" data-level="2.1.8" data-path="get-data.html"><a href="get-data.html#AirVision"><i class="fa fa-check"></i><b>2.1.8</b> Retrieving continuous data from AirVision</a></li>
+<li class="chapter" data-level="2.1.9" data-path="get-data.html"><a href="get-data.html#wair"><i class="fa fa-check"></i><b>2.1.9</b> Retrieving data from MPCA WAIR database</a></li>
+<li class="chapter" data-level="2.1.10" data-path="get-data.html"><a href="get-data.html#toxics"><i class="fa fa-check"></i><b>2.1.10</b> Air toxics Data Explorer</a></li>
+<li class="chapter" data-level="2.1.11" data-path="get-data.html"><a href="get-data.html#criteria"><i class="fa fa-check"></i><b>2.1.11</b> Criteria Pollutant Data Explorer</a></li>
+<li class="chapter" data-level="2.1.12" data-path="get-data.html"><a href="get-data.html#AQI"><i class="fa fa-check"></i><b>2.1.12</b> Air Quality Index Summary Reports</a></li>
+<li class="chapter" data-level="2.1.13" data-path="get-data.html"><a href="get-data.html#PAHs"><i class="fa fa-check"></i><b>2.1.13</b> Air Monitoring for PAHs</a></li>
+<li class="chapter" data-level="2.1.14" data-path="get-data.html"><a href="get-data.html#tableau"><i class="fa fa-check"></i><b>2.1.14</b> Internal Data Explorers</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="get-data.html"><a href="get-data.html#health-and-standards"><i class="fa fa-check"></i><b>2.2</b> Health and standards</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="get-data.html"><a href="get-data.html#IHBs"><i class="fa fa-check"></i><b>2.2.1</b> Inhalation health benchmarks (IHBs)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="get-data.html"><a href="get-data.html#NAAQS"><i class="fa fa-check"></i><b>2.2.2</b> Air Quality Standards (NAAQS and MAAQS)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="get-data.html"><a href="get-data.html#air-modeling"><i class="fa fa-check"></i><b>2.3</b> Air modeling</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="get-data.html"><a href="get-data.html#nata"><i class="fa fa-check"></i><b>2.3.1</b> NATA modeling</a></li>
+<li class="chapter" data-level="2.3.2" data-path="get-data.html"><a href="get-data.html#mnrisks"><i class="fa fa-check"></i><b>2.3.2</b> MNRISKS statewide risk modeling</a></li>
+<li class="chapter" data-level="2.3.3" data-path="get-data.html"><a href="get-data.html#downscale"><i class="fa fa-check"></i><b>2.3.3</b> Downscaler modeling results for Ozone and PM2.5</a></li>
+<li class="chapter" data-level="2.3.4" data-path="get-data.html"><a href="get-data.html#cmaq"><i class="fa fa-check"></i><b>2.3.4</b> CMAQ Ozone modeling</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="get-data.html"><a href="get-data.html#context"><i class="fa fa-check"></i><b>2.4</b> Context</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="get-data.html"><a href="get-data.html#mn-ei"><i class="fa fa-check"></i><b>2.4.1</b> MN Emissions Inventory</a></li>
+<li class="chapter" data-level="2.4.2" data-path="get-data.html"><a href="get-data.html#nei"><i class="fa fa-check"></i><b>2.4.2</b> EPA’s NEI</a></li>
+<li class="chapter" data-level="2.4.3" data-path="get-data.html"><a href="get-data.html#fac-coords"><i class="fa fa-check"></i><b>2.4.3</b> Facility locations</a></li>
+<li class="chapter" data-level="2.4.4" data-path="get-data.html"><a href="get-data.html#wx-obs"><i class="fa fa-check"></i><b>2.4.4</b> Weather observations</a></li>
+<li class="chapter" data-level="2.4.5" data-path="get-data.html"><a href="get-data.html#hysplit"><i class="fa fa-check"></i><b>2.4.5</b> HYSPLIT wind trajectories</a></li>
+<li class="chapter" data-level="2.4.6" data-path="get-data.html"><a href="get-data.html#landuse"><i class="fa fa-check"></i><b>2.4.6</b> Land use maps</a></li>
+<li class="chapter" data-level="2.4.7" data-path="get-data.html"><a href="get-data.html#census"><i class="fa fa-check"></i><b>2.4.7</b> United States Census boundaries</a></li>
+<li class="chapter" data-level="2.4.8" data-path="get-data.html"><a href="get-data.html#acs"><i class="fa fa-check"></i><b>2.4.8</b> American Community Survey (ACS)</a></li>
+</ul></li>
+</ul></li>
+<li><a href="quality-assurance-methods.html#quality-assurance-methods"><strong>Quality assurance methods</strong></a></li>
+<li class="chapter" data-level="3" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>3</b> Data cleaning</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#missing"><i class="fa fa-check"></i><b>3.1</b> Blank, NULL, and missing values</a></li>
+<li class="chapter" data-level="3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#quals"><i class="fa fa-check"></i><b>3.2</b> Qualified data</a></li>
+<li class="chapter" data-level="3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#dups"><i class="fa fa-check"></i><b>3.3</b> Duplicate observations</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-validation.html"><a href="data-validation.html"><i class="fa fa-check"></i><b>4</b> Data validation</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-validation.html"><a href="data-validation.html#leaks"><i class="fa fa-check"></i><b>4.1</b> Instrument drift or leaks in a system.</a></li>
+<li class="chapter" data-level="4.2" data-path="data-validation.html"><a href="data-validation.html#outs"><i class="fa fa-check"></i><b>4.2</b> Extreme values and outliers</a></li>
+<li class="chapter" data-level="4.3" data-path="data-validation.html"><a href="data-validation.html#sticky2"><i class="fa fa-check"></i><b>4.3</b> Sequential repeats and “sticky” numbers</a></li>
+<li class="chapter" data-level="4.4" data-path="data-validation.html"><a href="data-validation.html#unique"><i class="fa fa-check"></i><b>4.4</b> Unique detected values</a></li>
+<li class="chapter" data-level="4.5" data-path="data-validation.html"><a href="data-validation.html#valid_ref"><i class="fa fa-check"></i><b>4.5</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="collocated-monitors.html"><a href="collocated-monitors.html"><i class="fa fa-check"></i><b>5</b> Collocated monitors</a><ul>
+<li class="chapter" data-level="5.1" data-path="collocated-monitors.html"><a href="collocated-monitors.html#evalpocs"><i class="fa fa-check"></i><b>5.1</b> Evaluate collocated air monitors</a></li>
+<li class="chapter" data-level="5.2" data-path="collocated-monitors.html"><a href="collocated-monitors.html#pripocs"><i class="fa fa-check"></i><b>5.2</b> Prioritize multiple air monitors (POCs)</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="detection-limits.html"><a href="detection-limits.html"><i class="fa fa-check"></i><b>6</b> Detection limits</a><ul>
+<li class="chapter" data-level="6.1" data-path="detection-limits.html"><a href="detection-limits.html#method-detection-limit"><i class="fa fa-check"></i><b>6.1</b> Method Detection Limit</a></li>
+<li class="chapter" data-level="6.2" data-path="detection-limits.html"><a href="detection-limits.html#calculating-mdls"><i class="fa fa-check"></i><b>6.2</b> Calculating MDLs</a></li>
+<li class="chapter" data-level="6.3" data-path="detection-limits.html"><a href="detection-limits.html#finding-mpca-detection-limits"><i class="fa fa-check"></i><b>6.3</b> Finding MPCA detection limits</a></li>
+<li class="chapter" data-level="6.4" data-path="detection-limits.html"><a href="detection-limits.html#qualifier-codes-for-detection-limits"><i class="fa fa-check"></i><b>6.4</b> Qualifier Codes for Detection Limits</a></li>
+<li class="chapter" data-level="6.5" data-path="detection-limits.html"><a href="detection-limits.html#estimating-below-detection-values"><i class="fa fa-check"></i><b>6.5</b> Estimating below detection values</a></li>
+<li class="chapter" data-level="6.6" data-path="detection-limits.html"><a href="detection-limits.html#recommended-steps"><i class="fa fa-check"></i><b>6.6</b> Recommended Steps</a></li>
+<li class="chapter" data-level="6.7" data-path="detection-limits.html"><a href="detection-limits.html#multiple-detection-limits"><i class="fa fa-check"></i><b>6.7</b> Multiple detection limits</a></li>
+<li class="chapter" data-level="6.8" data-path="detection-limits.html"><a href="detection-limits.html#reporting-limits"><i class="fa fa-check"></i><b>6.8</b> Reporting limits</a></li>
+<li class="chapter" data-level="6.9" data-path="detection-limits.html"><a href="detection-limits.html#references"><i class="fa fa-check"></i><b>6.9</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="completeness-checks.html"><a href="completeness-checks.html"><i class="fa fa-check"></i><b>7</b> Completeness checks</a><ul>
+<li class="chapter" data-level="7.1" data-path="completeness-checks.html"><a href="completeness-checks.html#complete"><i class="fa fa-check"></i><b>7.1</b> Completeness checks</a></li>
+</ul></li>
+<li><a href="summary-methods.html#summary-methods"><strong>Summary methods</strong></a></li>
+<li class="chapter" data-level="8" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>8</b> Summary statistics</a><ul>
+<li class="chapter" data-level="8.1" data-path="summary-statistics.html"><a href="summary-statistics.html#normal"><i class="fa fa-check"></i><b>8.1</b> Test for normality</a></li>
+<li class="chapter" data-level="8.2" data-path="summary-statistics.html"><a href="summary-statistics.html#boots"><i class="fa fa-check"></i><b>8.2</b> Bootstrapping</a></li>
+<li class="chapter" data-level="8.3" data-path="summary-statistics.html"><a href="summary-statistics.html#below"><i class="fa fa-check"></i><b>8.3</b> Below the detection limit</a></li>
+<li class="chapter" data-level="8.4" data-path="summary-statistics.html"><a href="summary-statistics.html#confidence"><i class="fa fa-check"></i><b>8.4</b> Upper confidence limits (UCLs)</a></li>
+<li class="chapter" data-level="8.5" data-path="summary-statistics.html"><a href="summary-statistics.html#incomplete"><i class="fa fa-check"></i><b>8.5</b> Annual summaries for incomplete data</a></li>
+<li class="chapter" data-level="8.6" data-path="summary-statistics.html"><a href="summary-statistics.html#health"><i class="fa fa-check"></i><b>8.6</b> Comparison of data to inhalation health benchmarks</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="site-comparisons.html"><a href="site-comparisons.html"><i class="fa fa-check"></i><b>9</b> Site comparisons</a><ul>
+<li class="chapter" data-level="9.1" data-path="site-comparisons.html"><a href="site-comparisons.html#confidence-intervals"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="9.2" data-path="site-comparisons.html"><a href="site-comparisons.html#tools-to-visualize-differences"><i class="fa fa-check"></i><b>9.2</b> Tools to visualize differences</a><ul>
+<li class="chapter" data-level="" data-path="site-comparisons.html"><a href="site-comparisons.html#beeswarm-plots"><i class="fa fa-check"></i>Beeswarm Plots</a></li>
+<li class="chapter" data-level="" data-path="site-comparisons.html"><a href="site-comparisons.html#correlation-matrices"><i class="fa fa-check"></i>Correlation matrices</a></li>
+</ul></li>
+<li><a href="site-comparisons.html#references-1"><em>References</em></a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="start-finish.html"><a href="start-finish.html"><i class="fa fa-check"></i><b>10</b> From start to finish</a><ul>
+<li class="chapter" data-level="10.1" data-path="start-finish.html"><a href="start-finish.html#using-functions"><i class="fa fa-check"></i><b>10.1</b> Using functions</a></li>
+<li class="chapter" data-level="10.2" data-path="start-finish.html"><a href="start-finish.html#a-simpler-analysis"><i class="fa fa-check"></i><b>10.2</b> A simpler analysis</a></li>
+</ul></li>
+<li><a href="visuals.html#visuals"><strong>Visuals</strong></a></li>
+<li class="chapter" data-level="11" data-path="charts.html"><a href="charts.html"><i class="fa fa-check"></i><b>11</b> Charts</a><ul>
+<li class="chapter" data-level="11.1" data-path="charts.html"><a href="charts.html#calendar-plots"><i class="fa fa-check"></i><b>11.1</b> Calendar plots</a></li>
+<li class="chapter" data-level="11.2" data-path="charts.html"><a href="charts.html#colors-and-themes"><i class="fa fa-check"></i><b>11.2</b> Colors and themes</a></li>
+<li class="chapter" data-level="11.3" data-path="charts.html"><a href="charts.html#pollution-roses"><i class="fa fa-check"></i><b>11.3</b> Pollution roses</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="time-series.html"><a href="time-series.html"><i class="fa fa-check"></i><b>12</b> Time series</a><ul>
+<li class="chapter" data-level="" data-path="time-series.html"><a href="time-series.html#hour-of-the-day"><i class="fa fa-check"></i>Hour of the day</a></li>
+<li class="chapter" data-level="" data-path="time-series.html"><a href="time-series.html#day-of-the-week"><i class="fa fa-check"></i>Day of the week</a></li>
+<li class="chapter" data-level="" data-path="time-series.html"><a href="time-series.html#seasonality"><i class="fa fa-check"></i>Seasonality</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="maps.html"><a href="maps.html"><i class="fa fa-check"></i><b>13</b> Maps</a><ul>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#interactive-map-of-air-monitors"><i class="fa fa-check"></i>Interactive map of air monitors</a></li>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#creating-shapefiles-in-r"><i class="fa fa-check"></i>Creating shapefiles in R</a></li>
+</ul></li>
+<li><a href="mpca-data-tools.html#mpca-data-tools"><strong>MPCA data tools</strong></a></li>
+<li class="chapter" data-level="14" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html"><i class="fa fa-check"></i><b>14</b> Air toxics explorer</a><ul>
+<li class="chapter" data-level="14.1" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#data-cleaning-1"><i class="fa fa-check"></i><b>14.1</b> Data Cleaning</a><ul>
+<li class="chapter" data-level="" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#null-results"><i class="fa fa-check"></i>Null Results</a></li>
+<li class="chapter" data-level="" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#duplicate-observations"><i class="fa fa-check"></i>Duplicate Observations</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#data-validation-1"><i class="fa fa-check"></i><b>14.2</b> Data Validation</a><ul>
+<li class="chapter" data-level="" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#parameter-occurrence-codes-pocs"><i class="fa fa-check"></i>Parameter Occurrence Codes (POCs)</a></li>
+<li class="chapter" data-level="" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#data-completeness"><i class="fa fa-check"></i>Data Completeness</a></li>
+<li class="chapter" data-level="" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#below-the-detection-limit"><i class="fa fa-check"></i>Below the detection limit</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#producing-annual-summaries"><i class="fa fa-check"></i><b>14.3</b> Producing Annual Summaries</a><ul>
+<li class="chapter" data-level="" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#calculating-annual-means"><i class="fa fa-check"></i>Calculating annual means</a></li>
+<li class="chapter" data-level="" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#calculating-upper-confidence-limits"><i class="fa fa-check"></i>Calculating upper confidence limits</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="air-toxics-explorer.html"><a href="air-toxics-explorer.html#comparing-sites"><i class="fa fa-check"></i><b>14.4</b> Comparing sites</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="criteria-pollutant-explorer.html"><a href="criteria-pollutant-explorer.html"><i class="fa fa-check"></i><b>15</b> Criteria pollutant explorer</a></li>
+<li class="chapter" data-level="16" data-path="aqi-explorer.html"><a href="aqi-explorer.html"><i class="fa fa-check"></i><b>16</b> AQI explorer</a></li>
+<li class="chapter" data-level="" data-path="edit-this-book.html"><a href="edit-this-book.html"><i class="fa fa-check"></i>Edit this book</a><ul>
+<li><a href="edit-this-book.html#references-2"><em>References</em></a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/MPCA-air" target="blank">Created by MPCA-air</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="detection-limits" class="section level1">
+<h1><span class="header-section-number"></span> Detection limits</h1>
+<p><img src="images/cover5.jpg" align="right" style="margin-top: -8px; margin-bottom: 16px; margin-left: 34px; width: 36%;" /></p>
+<div id="method-detection-limit" class="section level2">
+<h2><span class="header-section-number">6.1</span> Method Detection Limit</h2>
+<p>A method detection limit (MDL) is the minimum concentration of a substance that can be measured and reported with 99% confidence that the analyte concentration is greater than zero.</p>
+</div>
+<div id="calculating-mdls" class="section level2">
+<h2><span class="header-section-number">6.2</span> Calculating MDLs</h2>
+<ul>
+<li>Prior to 2017, the lab calculated detection limits according to the procedures defined in 40 CFR Appendix B to Part 136 (<a href="https://www.gpo.gov/fdsys/granule/CFR-2011-title40-vol23/CFR-2011-title40-vol23-part136-appB/content-detail.html">Definition and Procedure for the determination of Method Detection Limit</a>).<br />
+</li>
+<li>Begining in 2017, the lab adopted a modified method for calcuating the method detection limit. Known as the “Method Update Rule(MUR)”, this method accounts for media background contamination when establishing the MDL.</li>
+</ul>
+<p>This method is defined in the <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwjJ3Y6AyfzVAhVL2IMKHXe_DI0QFggoMAA&amp;url=https%3A%2F%2Fwww3.epa.gov%2Fttnamti1%2Ffiles%2Fambient%2Fairtox%2FNATTS%2520TAD%2520Revision%25203_FINAL%2520October%25202016.pdf&amp;usg=AFQjCNGVu-9E0zS1-Gjkt_5sULzOPNeymg">NATTS TAD (October 2016)</a>. EPA has proposed to revise 40 CFR Appendix B to Part 136 to reflect this methodology.</p>
+<ul>
+<li>Both methods require preparing and analyzing 7 matrix spikes and 7 method blanks. Samples should be prepped and analyzed over the course of at least 3 seperate batches/days.
+<ul>
+<li>Calculate the MDL of spiked samples (MDL_sp)<br />
+</li>
+<li>Calculate standard deviation of the calcuated concentrations for the spiked samples.<br />
+</li>
+<li>Calculate the MDL for the spiked samples by multiplying the standard deviation of spiked sample by the one-sided student’s T value at 99% confidence corresponding to the number of spikes analyzed (3.143 if 7 samples).</li>
+</ul></li>
+</ul>
+<p>The new method also requires calculation of the MDL of the method blanks (MDL_b):</p>
+<ul>
+<li>If no method blank provides a numerical result, no further action needed.<br />
+</li>
+<li>If method blank pool includes a combination of ND and numeric values, set the method blank MDL to equal the highest of the method blank results.<br />
+</li>
+<li>If all concentration values for the method blank pool are numeric values, calculate the MDL_b as follows:
+<ul>
+<li>Calculate the average concentration of method blanks</li>
+<li>Calculate the standard deviation of the method blank concentrations</li>
+<li>Multiply the standard deviation by the one-sided student’s T value at 99% confidence corresponding to the number of blanks analyzed</li>
+<li>Calculate the MDL_b as the sum of the average concentration method blanks, and the product of the standard deviation of blanks and the associated student’s T Value</li>
+<li>MDL_b = mean_blanks + stdv_blanks * Student T<br />
+</li>
+</ul></li>
+<li>Compare MDL_sp and MDL_b.
+<ul>
+<li>The higher of the two values is reported as the laboratory MDL.</li>
+</ul></li>
+</ul>
+</div>
+<div id="finding-mpca-detection-limits" class="section level2">
+<h2><span class="header-section-number">6.3</span> Finding MPCA detection limits</h2>
+<p>Annual method detection limits used for data analysis are stored on the X-drive at:</p>
+<ul>
+<li><code>X:\Databases\AQ\AQ Lab\Data Analysis\Air Toxics\Detection Limits\Annual Detection Limits (micrograms).xlsx</code></li>
+<li>Use the <code>ParamYear</code> field to join monitoring observations to their respective detection limits.<br />
+</li>
+<li>Detection limits are updated when received from the lab. Current year samples may not have a detection limit in the file if the lab has not performed the test.</li>
+</ul>
+<p>If you receive a detection limit directly from the lab it is likely in “<em>instrument units</em>”.</p>
+<ul>
+<li><strong>Metals (ug/mL):</strong> conversion to ug/m3 requires accounting for flow rate, runtime, and 1/9 filter strip, and 40 mL liquid extraction<br />
+</li>
+<li><strong>Carbonyls (ug/mL):</strong> conversion requires accounting for flow rate, runtime, and extraction volume<br />
+</li>
+<li><strong>VOCs (ppb):</strong> conversion can be done using Molecular Wt. and Standard Temp and Pressure</li>
+</ul>
+<p>When <em>Promium</em> is adopted, method detection limits will be applied on a sample by sample basis, and will account for the varying air volumes of samples. As a result, there will be multiple detection limits for an analyte.</p>
+</div>
+<div id="qualifier-codes-for-detection-limits" class="section level2">
+<h2><span class="header-section-number">6.4</span> Qualifier Codes for Detection Limits</h2>
+<p>Beginning in 2017, the MPCA now links laboratory detection limits to sample data and applies appropriate data qualifiers depending on the detection status.</p>
+<p>These qualifiers include:</p>
+<blockquote>
+<ul>
+<li><strong><code>SQL</code></strong> 3.18 X MDL</li>
+<li><strong><code>ND</code></strong> Not qualitatively identified <em>(reported as zero)</em></li>
+<li><strong><code>MD</code></strong> &lt; MDL</li>
+<li><strong><code>SQ</code></strong> &gt;= MDL but &lt; SQL</li>
+<li><strong><code>No qualifier</code></strong> Measured concentration &gt;= to SQL</li>
+</ul>
+</blockquote>
+</div>
+<div id="estimating-below-detection-values" class="section level2">
+<h2><span class="header-section-number">6.5</span> Estimating below detection values</h2>
+<blockquote>
+<p><strong>The 3 Don’ts</strong></p>
+</blockquote>
+<ol style="list-style-type: decimal">
+<li><strong>Don’t delete data.</strong>
+<ul>
+<li>Deleting data that are below a detection limit biases central tendency estimates and whole data summaries (quantiles of the data set) high.</li>
+</ul></li>
+<li><strong>Don’t fill with zeros</strong>
+<ul>
+<li>Substituting below detection limit data with 0’s biases central tendency estimates and whole data summaries (quantiles of the data set) low, and can change the distribution by the creation of multiple same value numbers, and can even create an inaccurate bimodal distribution of the data.</li>
+</ul></li>
+<li><strong>Don’t fill with DLs or ½ DLs</strong>
+<ul>
+<li>Substituting below detection limit data with 1/2 MDL creates the least bias in central tendency estimates and whole data summaries (quantiles of the data set), however, it can change the distribution by the creation of multiple same value numbers, and can even create an inaccurate bimodal distribution of the data.</li>
+<li>Substituting below detection limit data with MDLs biases central tendency estimates and whole data summaries (quantiles of the data set) high, and can change the distribution by the creation of multiple same value numbers, and can even create an inaccurate bimodal distribution of the data.</li>
+</ul></li>
+</ol>
+</div>
+<div id="recommended-steps" class="section level2">
+<h2><span class="header-section-number">6.6</span> Recommended Steps</h2>
+<p>24-hour samples which are below the method detection limit should be noted as “&lt;MDL” and the machine values should not be reported to the public unless explicitly requested. It is advised to replace the machine value with note, such as <code>MDL</code>, so the machine value is not used in independent analysis and to alert users of the data that censored values exist in the monitoring results. For details on how to deal with censored values in calculating annual summaries, see the summary methods section.</p>
+<p><br> <strong>Shiny tool for displaying non-detects</strong></p>
+<p>Open this tool to chart pollutant values and detection limits by year</p>
+<ul>
+<li><a href="https://mpca-pahs.shinyapps.io/ChartDetectionLimits/" class="uri">https://mpca-pahs.shinyapps.io/ChartDetectionLimits/</a></li>
+</ul>
+<p><img src="images/detection_boxplot.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p><strong>Shiny code</strong></p>
+<p>Click below to view the R script for the Shiny App.</p>
+<div class="toggle">
+<button class="btn_code">
+Show <strong>R</strong> code
+</button>
+<p><br> <em>Table: Sample monitoring data</em><br />
+<div id="htmlwidget-dc0b720b18898fab17ef" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dc0b720b18898fab17ef">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10"],[270535501,270535501,270535501,270535501,270535501,270535501,270535501,270535501,270535501,270535501],[1,1,1,1,1,1,1,1,1,1],[12102,12102,12102,12102,12102,12102,12102,12102,12102,12102],["2009-07-30","2009-08-05","2009-08-11","2009-09-16","2009-09-22","2009-08-17","2009-08-23","2009-08-29","2009-09-04","2009-09-10"],[0.00127,0.00223,0.0037,0.0018,0.0027,0.00173,0.00257,0.00101,0.00604,0.0029],[null,null,null,null,null,null,null,null,null,null],[0.0028236,0.0028236,0.0028236,0.0028236,0.0028236,0.0028236,0.0028236,0.0028236,0.0028236,0.0028236],["Antimony","Antimony","Antimony","Antimony","Antimony","Antimony","Antimony","Antimony","Antimony","Antimony"],[2009,2009,2009,2009,2009,2009,2009,2009,2009,2009],["7440-36-0","7440-36-0","7440-36-0","7440-36-0","7440-36-0","7440-36-0","7440-36-0","7440-36-0","7440-36-0","7440-36-0"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>aqs_id<\/th>\n      <th>poc<\/th>\n      <th>param_code<\/th>\n      <th>date<\/th>\n      <th>conc<\/th>\n      <th>null_code<\/th>\n      <th>md_limit<\/th>\n      <th>pollutant<\/th>\n      <th>year<\/th>\n      <th>cas<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"autoWidth":true,"searching":false,"ordering":false,"lengthChange":false,"paginate":false,"info":false,"columnDefs":[{"className":"dt-right","targets":[1,2,3,5,7,9]},{"orderable":false,"targets":0}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="detection-limits.html#cb51-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb51-2"><a href="detection-limits.html#cb51-2"></a><span class="kw">library</span>(rsconnect)</span>
+<span id="cb51-3"><a href="detection-limits.html#cb51-3"></a><span class="kw">library</span>(readr)</span>
+<span id="cb51-4"><a href="detection-limits.html#cb51-4"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb51-5"><a href="detection-limits.html#cb51-5"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb51-6"><a href="detection-limits.html#cb51-6"></a></span>
+<span id="cb51-7"><a href="detection-limits.html#cb51-7"></a>data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/MPCA-air/air-methods/master/airtoxics_data_2009_2013.csv&#39;</span>)</span>
+<span id="cb51-8"><a href="detection-limits.html#cb51-8"></a></span>
+<span id="cb51-9"><a href="detection-limits.html#cb51-9"></a><span class="kw">colnames</span>(data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;aqs_id&quot;</span>, <span class="st">&quot;poc&quot;</span>, <span class="st">&quot;param_code&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;conc&quot;</span>, <span class="st">&quot;null_code&quot;</span>, <span class="st">&quot;md_limit&quot;</span>, <span class="st">&quot;pollutant&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;cas&quot;</span>)</span>
+<span id="cb51-10"><a href="detection-limits.html#cb51-10"></a></span>
+<span id="cb51-11"><a href="detection-limits.html#cb51-11"></a>pollutant &lt;-<span class="st"> </span><span class="kw">unique</span>(data<span class="op">$</span>pollutant)</span>
+<span id="cb51-12"><a href="detection-limits.html#cb51-12"></a></span>
+<span id="cb51-13"><a href="detection-limits.html#cb51-13"></a>year &lt;-<span class="st"> </span><span class="kw">unique</span>(data<span class="op">$</span>year)</span>
+<span id="cb51-14"><a href="detection-limits.html#cb51-14"></a></span>
+<span id="cb51-15"><a href="detection-limits.html#cb51-15"></a><span class="kw">shinyApp</span>(</span>
+<span id="cb51-16"><a href="detection-limits.html#cb51-16"></a> <span class="dt">ui =</span> <span class="kw">fluidPage</span>(<span class="dt">responsive =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb51-17"><a href="detection-limits.html#cb51-17"></a>                   <span class="kw">fluidRow</span>(</span>
+<span id="cb51-18"><a href="detection-limits.html#cb51-18"></a>                     <span class="kw">column</span>(<span class="dv">3</span>,</span>
+<span id="cb51-19"><a href="detection-limits.html#cb51-19"></a>                            <span class="dt">style =</span> <span class="st">&quot;padding-bottom: 20px;&quot;</span>,</span>
+<span id="cb51-20"><a href="detection-limits.html#cb51-20"></a>                            <span class="kw">inputPanel</span>(</span>
+<span id="cb51-21"><a href="detection-limits.html#cb51-21"></a>  <span class="kw">selectInput</span>(<span class="st">&quot;pollutant&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Choose a pollutant&quot;</span>, <span class="dt">choices =</span> pollutant, <span class="dt">selected =</span> <span class="st">&quot;Benzene&quot;</span>),</span>
+<span id="cb51-22"><a href="detection-limits.html#cb51-22"></a>  <span class="kw">selectInput</span>(<span class="st">&quot;year&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Choose a year&quot;</span>, <span class="dt">choices =</span> years, <span class="dt">selected =</span> <span class="dv">2009</span>))),</span>
+<span id="cb51-23"><a href="detection-limits.html#cb51-23"></a>                    <span class="kw">column</span>(<span class="dv">9</span>,</span>
+<span id="cb51-24"><a href="detection-limits.html#cb51-24"></a>                   <span class="kw">plotOutput</span>(<span class="st">&#39;detlim&#39;</span>, <span class="dt">height =</span> <span class="st">&quot;400px&quot;</span>)))),</span>
+<span id="cb51-25"><a href="detection-limits.html#cb51-25"></a>   </span>
+<span id="cb51-26"><a href="detection-limits.html#cb51-26"></a></span>
+<span id="cb51-27"><a href="detection-limits.html#cb51-27"></a>  <span class="dt">server =</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb51-28"><a href="detection-limits.html#cb51-28"></a></span>
+<span id="cb51-29"><a href="detection-limits.html#cb51-29"></a>output<span class="op">$</span>detlim &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</span>
+<span id="cb51-30"><a href="detection-limits.html#cb51-30"></a>  <span class="kw">print</span>(input<span class="op">$</span>year)</span>
+<span id="cb51-31"><a href="detection-limits.html#cb51-31"></a>  <span class="kw">print</span>(input<span class="op">$</span>pollutant)</span>
+<span id="cb51-32"><a href="detection-limits.html#cb51-32"></a>    data_sub =<span class="st"> </span><span class="kw">filter</span>(data, year<span class="op">==</span>input<span class="op">$</span>year, pollutant<span class="op">==</span>input<span class="op">$</span>pollutant)</span>
+<span id="cb51-33"><a href="detection-limits.html#cb51-33"></a>    mdl &lt;-<span class="st"> </span><span class="kw">mean</span>(data_sub<span class="op">$</span>md_limit)</span>
+<span id="cb51-34"><a href="detection-limits.html#cb51-34"></a>    data_sub<span class="op">$</span>Censored &lt;-<span class="st"> </span><span class="kw">ifelse</span>(data_sub<span class="op">$</span>conc <span class="op">&gt;</span><span class="st"> </span>data_sub<span class="op">$</span>md_limit, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)</span>
+<span id="cb51-35"><a href="detection-limits.html#cb51-35"></a>    <span class="kw">ggplot</span>(<span class="dt">data=</span>data_sub, <span class="kw">aes</span>(<span class="dt">x=</span> <span class="kw">factor</span>(aqs_id), <span class="dt">y=</span>conc)) <span class="op">+</span></span>
+<span id="cb51-36"><a href="detection-limits.html#cb51-36"></a><span class="st">      </span><span class="kw">scale_colour_manual</span>(<span class="dt">values=</span> <span class="kw">c</span>(<span class="st">&quot;#197519&quot;</span>[<span class="ot">FALSE</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">unique</span>(data_sub<span class="op">$</span>Censored)], <span class="st">&quot;#0000FF&quot;</span>[<span class="ot">TRUE</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">unique</span>(data_sub<span class="op">$</span>Censored)]), <span class="dt">breaks=</span><span class="kw">c</span>(<span class="ot">FALSE</span>, <span class="ot">TRUE</span>)) <span class="op">+</span></span>
+<span id="cb51-37"><a href="detection-limits.html#cb51-37"></a><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.colour=</span><span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb51-38"><a href="detection-limits.html#cb51-38"></a><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Censored), <span class="dt">size =</span><span class="fl">2.4</span>, <span class="dt">alpha=</span><span class="fl">0.55</span>) <span class="op">+</span></span>
+<span id="cb51-39"><a href="detection-limits.html#cb51-39"></a><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> mdl) <span class="op">+</span></span>
+<span id="cb51-40"><a href="detection-limits.html#cb51-40"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span></span>
+<span id="cb51-41"><a href="detection-limits.html#cb51-41"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Result (ug/m3)&quot;</span>) <span class="op">+</span></span>
+<span id="cb51-42"><a href="detection-limits.html#cb51-42"></a><span class="st">    </span><span class="kw">expand_limits</span>(<span class="dt">y=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(data_sub<span class="op">$</span>conc))) <span class="op">+</span></span>
+<span id="cb51-43"><a href="detection-limits.html#cb51-43"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">15</span>), <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">-90</span>, <span class="dt">vjust =</span> <span class="fl">0.3</span>,  <span class="dt">size=</span><span class="dv">14</span>)) <span class="op">+</span></span>
+<span id="cb51-44"><a href="detection-limits.html#cb51-44"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste0</span>(<span class="st">&quot;Site Comparison Boxplot with Censored and Non-Censored Values for &quot;</span>, input<span class="op">$</span>pollutant, <span class="st">&quot;, from &quot;</span>, input<span class="op">$</span>year),</span>
+<span id="cb51-45"><a href="detection-limits.html#cb51-45"></a>            <span class="dt">subtitle =</span> <span class="st">&quot;---- Horizontal Line ----  =  Detection Limit&quot;</span>)</span>
+<span id="cb51-46"><a href="detection-limits.html#cb51-46"></a>})</span>
+<span id="cb51-47"><a href="detection-limits.html#cb51-47"></a></span>
+<span id="cb51-48"><a href="detection-limits.html#cb51-48"></a>})</span></code></pre></div>
+</div>
+</div>
+<div id="multiple-detection-limits" class="section level2">
+<h2><span class="header-section-number">6.7</span> Multiple detection limits</h2>
+<p>Regression on order statistics may be replaced with maximum likelyhood estimates for below detection limit data methodlogies if there are more than one detection limit per year in a data set.</p>
+</div>
+<div id="reporting-limits" class="section level2">
+<h2><span class="header-section-number">6.8</span> Reporting limits</h2>
+<p>Results below the method reporting limit are considered estimated but valid. If more than 80% of results in a year for a pollutant at a site are below the method reporting limit, the annual summary statistics should be qualified as below the reporting limit.</p>
+</div>
+<div id="references" class="section level2">
+<h2><span class="header-section-number">6.9</span> References</h2>
+<p><a href="https://academic.oup.com/annweh/article/54/3/257/223531/Much-Ado-About-Next-to-Nothing-Incorporating">Review article by Helsel, D about non-detects and substitution methods.</a></p>
+<p><a href="https://pdfs.semanticscholar.org/182e/9278fc36dd73d48a414b8fbc30a44ea314d3.pdf">A Chemosphere review article describing why BDL substitution should not be done.</a></p>
+<p><a href="http://www.public.iastate.edu/~pdixon/stat505/Chapter%2011.pdf">A below detection limit primer from Iowa State University</a></p>
+<p><br> <a href="detection-limits.html#detection-limits">Back to top</a></p>
+
+</div>
+</div>
+<script>
+  $(".btn_code").click(function() {
+    $(this.parentNode).toggleClass("open");
+  });
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="collocated-monitors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="completeness-checks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/MPCA-air/air-methods/edit/master/05-detection_limits.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["air-methods.pdf", "air-methods.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

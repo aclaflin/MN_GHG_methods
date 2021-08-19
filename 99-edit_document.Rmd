@@ -1,0 +1,18 @@
+# Edit this book {-}  
+
+This guide is an online project that lives on GitHub.  
+
+- To make _changes_ go to [github.com/MPCA-air/air-methods](https://github.com/MPCA-air/air-methods) and click `[ Fork ]`.   
+
+- To make _suggestions_ go to [github.com/MPCA-air/air-methods/issues](https://github.com/MPCA-air/air-methods/issues) and click `[ New issue ]`.  
+
+
+<br>
+
+
+
+## _References_ {-}
+
+We are using the R **bookdown** package to make this book.
+
+> Xie, Yihui. 2017. **Bookdown**: Authoring Books and Technical Documents with R Markdown. https://github.com/rstudio/bookdown.

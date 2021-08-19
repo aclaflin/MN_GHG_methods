@@ -1,0 +1,476 @@
+# Summary statistics
+
+```{r, echo=F, warning=F, message=F}
+library(knitr)
+library(DT)
+library(kableExtra)
+
+knitr::opts_chunk$set(echo = T, warning = F, message = F)
+
+dt_options <- list(scrollX = T, autoWidth = T, searching = F, ordering = F, lengthChange = F, paginate = F, info = F)
+
+```
+
+
+![](images/cover7.jpg){align="right" style="margin-top: -4px; margin-left: 24px; width: 34%;"}
+
+<br>
+
+
+The summary methods described in this chapter include:  
+
+\@ref(normal)      __Normality__  
+\@ref(boots)       __Bootstrapping__  
+\@ref(below)       __Below the detection limit__  
+\@ref(confidence)  __Confidence intervals__  
+\@ref(incomplete)  __Annual summaries for incomplete data__  
+\@ref(health)      __Comparison of data to inhalation health benchmarks__  
+
+<br>
+
+## Test for normality {#normal}
+
+Data should be tested for normality prior to determining the type of summary statistic to report. In general environmental data are non-normal and contain with many low values and a few high values. This causes the mean of the data to be higher than the median (right skewed). Many normality tests exist and they vary in sensitivity. A good article on normality tests can be found at  [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3693611/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3693611/).
+
+The normality test in the example script below is a recommended test for data of sample size between 5-5000 and will allow missing values. A Shapiro-Wilk test may also be performed for the typical sample size of a year of air toxics results. The script below includes a a line to switch to a Shapiro Wilk test.
+
+<br>
+
+
+_Click below to view code for a normality test._
+
+<div class="toggle"><button class="btn_code">Show __R__ code</button>
+
+**Normality test**
+
+```{r, message=F, results="hide"}
+library(tidyverse)
+library(stats)
+library(nortest)
+
+data <- read_csv('https://raw.githubusercontent.com/MPCA-air/air-methods/master/airtoxics_data_2009_2013.csv')
+
+colnames(data) <- c("aqs_id", "poc", "param_code", "date", "conc", "null_code", "md_limit", "pollutant", "year", "cas")
+
+data_normresults <- data.frame(site_name=character(),
+                               analyte=character(),
+                               year=character(),
+                                 w_value=numeric(), 
+                                 p_value=numeric(), 
+                                 stringsAsFactors=FALSE) 
+sites <- unique(data$aqs_id)
+analytes <- unique(data$pollutant)
+years <- unique(data$year)
+
+for(i in sites[1:3]){
+  for(j in analytes){
+    for(k in years){
+      
+  data_sub <- filter(data , aqs_id == i, pollutant == j, year ==k)
+  
+  if (length(unique(data_sub$conc)) > 5) {
+    
+    norm_test <- sf.test(data_sub$conc)
+    #norm_test <- shapiro.test(data_sub$conc)
+    
+    print(i)
+    
+    print(norm_test)
+    
+    values <- data.frame(site_name = i, analyte=j, year=k, w_value = round(norm_test$statistic, digits = 2), p_value = round(norm_test$p.value, digits = 2))
+    
+    data_normresults <- rbind(values, data_normresults)
+    }
+  }
+  }
+}
+```
+
+```{r}
+DT::datatable(head(data_normresults), options = dt_options)
+```
+
+</div>
+
+<br>
+
+We also suggest visualizing the data to determine if normality may be a valid assumption. The script below is an example of visual normality tests and includes an explanation of their interpretation. In the Q-Q Plot, normal data will form a straight line with the theoretical distribution quantiles with little deviation from the line. This is a visual test and somewhat subjective. Normal data form histograms that produce a bell shaped curve.  
+
+
+Here's an example tool to inspect your data by year, site and pollutant: [https://mpca-pahs.shinyapps.io/NormViz/](https://mpca-pahs.shinyapps.io/NormViz/)
+
+
+_Click to view the code for the shiny tool above._
+
+<div class="toggle"><button class="btn_code">Show __R__ code</button>
+
+**Shiny tool**
+
+```{r, message = F, echo = F, eval = F, warning = F}
+library(shiny)
+library(readr)
+library(rsconnect)
+
+data <- read_csv('https://raw.githubusercontent.com/MPCA-air/air-methods/master/airtoxics_data_2009_2013.csv')
+
+colnames(data) <- c("aqs_id", "poc", "param_code", "date", "conc", "null_code", "md_limit", "pollutant", "year", "cas")
+
+pollutant <- unique(data$pollutant)
+
+site <- unique(data$aqs_id)
+
+year <- unique(data$year)
+
+
+shinyApp(
+  ui = fluidPage(responsive = FALSE,
+                 fluidRow(
+                   column(3,
+                          style = "padding-bottom: 20px;",
+                          inputPanel(
+                            selectInput("pollutant", label="Choose a pollutant", choices = pollutant, selected="Benzene"),
+                            selectInput("year", label="Choose a year", choices = year, selected=2009),
+                            selectInput("site", label="Choose a site", choices = site, selected=270535501))),
+                   column(9,
+                          plotOutput('normviz', height = "900px")))),
+  
+  
+  server = function(input, output) {
+    
+    
+    
+    
+    output$normviz <- renderPlot({
+      
+      print(input$pollutant)
+      
+      print(input$site)
+      
+      print(input$year)
+      
+      data_sub = filter(data, pollutant==input$pollutant, aqs_id == input$site, year == input$year)
+      
+      par(mfrow=c(2,1))
+      
+      qqnorm(data_sub$conc)
+      
+      hist(data_sub$conc, main = "Histogram of Results", xlab = "Concentration (ug/m^3)")
+      
+    })
+    
+  })
+
+```
+
+</div>
+
+<br>
+
+When to use a arithmetic or geometric mean:
+
+- Use an arithmetic mean when your data are normal and there are less than 5% below detection limit values per year/analyte/site.
+- For non-automated scripts: Use a geometric mean if your data are log-normally distributed and there are less than 5% below detection limit values per year/analyte/site.
+
+
+
+## Bootstrapping {#boots}
+
+Bootstrapping provides methods for calculating summary statistics without making assumptions about the distribution from which the data is sampled.
+
+
+_Click to view the bootstrapping code._
+
+<div class="toggle"><button class="btn_code">Show __R__ code</button>
+
+**Bootstrapping**
+
+```{r, message = F, warning = F}
+library(dplyr)
+library(readr)
+```
+
+
+Our data is organized by monitoring site and date. Here's a sample.
+```{r message = F, echo = F, fig.cap = "Sample data table."}
+library(knitr)
+
+df <- read_csv(
+'"AQS_ID","Date","Conc"
+270535501,"2009-07-30",0.00148
+270535501,"2009-09-30",0.00064
+270535501,"2009-11-30",0.34256
+270535501,"2009-12-30",0.00064
+270535502,"2009-03-30",0.26219
+270535502,"2009-07-30",0.01113
+270535502,"2009-09-30",0.00044
+270535502,"2009-11-30",0.00127
+270535502,"2009-12-30",0.00113')
+
+kable(df)
+```
+
+<br>
+
+__Bootstrap function__
+
+We currently use the `EnvStats` package to generate air toxics summary values. It has built in functions to account for non-detect data and allows for different distributions. However, if you're not dealing with non-detects you can use a simple loop to boot things yourself.
+
+Before you start you'll want to set the random number generator to ensure you'll be able to reproduce your results. I'll use `#27` below.
+
+```{r message=F}
+set.seed(27)
+```
+
+
+The general idea is to take a random sample with replacement from the data set, generate the statistic that you're interested in, record it, then rinse and repeat. Below is the code for how to resample a single site.  
+  
+```{r message=F}
+
+# Filter data to a single site
+df_site1 <- filter(df, AQS_ID == AQS_ID[1])
+
+# Pull random sample
+# `replace=T` allows for the same value to be pulled multiple times
+# `size=nrow(df)` ensures the number of observations in the new table to match the original 
+random_df <- sample(df_site1$Conc, replace = T)
+
+# Generate summary statistic
+quantile(random_df, 0.1)
+
+```
+
+
+To repeat this 3,000 times we can wrap these steps into a `resample` function, and then use `sapply` to collect the results.
+
+```{r, message=F}
+
+# Create  resample function
+resample_Conc <- function(data = df_site1$Conc, Conc_pct = 0.10){
+
+random_df <- sample(data, replace = T)
+
+quantile(random_df, Conc_pct, na.rm=T)[[1]]
+
+}
+
+# Repeat using `sapply`
+repeats <- 3000
+
+booted_10pct <- sapply(1:repeats, FUN = function(x)
+  resample_Conc(df_site1$Conc))
+
+# The 50th percentile or median Conc
+median(booted_10pct, na.rm=T)
+
+# Return the 95th percentile of the booted concentrations
+quantile(booted_10pct, 0.95, na.rm = T)[[1]]
+
+# Force the 95th percentile to be a recorded value
+sort(booted_10pct)[repeats*.95 +1]
+
+# Upper and lower confidence interval around the median
+quantile(booted_10pct, c(0.025, 0.5, 0.975), na.rm = T)
+
+```
+
+
+__Automate__
+
+To finish, put these steps into a `boot` function and run it on each site by using `group_by`.
+```{r message=F}
+
+# Create boot function
+boot_low_Conc <- function(data     = df$Conc, 
+                          Conc_pct = 0.10, 
+                          conf_int = 0.95, 
+                          repeats  = 3000){
+
+alpha <- (1 - conf_int)/2
+
+booted_10pct <- sapply(1:repeats, FUN = function(x) resample_Conc(data, Conc_pct))
+
+# Upper and lower confidence interval around the median
+list(quantile(booted_10pct, c(alpha, 0.5, 1-alpha), na.rm = T))
+
+}
+
+# Use `group_by` to send data for each site to your boot function
+conc_summary <- group_by(df, AQS_ID) %>% 
+                mutate(boot_results   = boot_low_Conc(Conc, Conc_pct=0.10, conf_int=0.95)) %>%
+                summarize(Conc_10pct  =  quantile(Conc, 0.10, na.rm=T)[[1]],
+                Low_CL95_conc         = unlist(boot_results[1])[[1]], 
+                Boot_conc             = unlist(boot_results[1])[[2]], 
+                Upper_CL95_conc       = unlist(boot_results[1])[[3]])  
+```
+
+
+__Results__
+
+The booted confidence limits:
+
+`r kable(conc_summary)`
+
+</div>
+
+
+
+## Below the detection limit {#below}
+
+The annual mean or upper confidence limit is reported as below the detection limit when either of the following conditions is true:
+
+- The number of censored values is greater than 80%.
+    - This is based on _Cox 2006_ and MPCA simulations (cite work and results)[www.google.com].
+- The annual mean or 95% upper confidence limit is below the method detection limit. 
+
+
+
+
+## Upper confidence limits (UCLs) {#confidence}
+
+If data is not normal, use bootstraping to generate means for each site. The 95% upper confidence limit is the 95th percentile of means generated using bootstrap sampling.
+
+The script below uses bootstrap sampling to generate 1000 means for each site, pollutant, and year and then calculates the 95% UCL by taking the 95th percentile of those means. Values below the MDL are estimated using lognormal MLE estimation for each bootstrap sample. The 95% UCL is not calculated for any site, pollutant, and year which fails to meet completeness requirements and/or minimum detection requirements.
+
+
+_Click to view code for calculating UCLs._
+
+<div class="toggle"><button class="btn_code">Show __R__ code</button>
+
+**Upper Confidence Limits**
+
+```{r confidence, eval=F, warning=F, message=F, echo=T}
+# DATA prep:
+## For this function data must have names: 
+## "AQSID", "POC", "Parameter", "Date", "Result", "MDL", "Pollutant"
+
+library(dplyr)
+library(EnvStats)
+library(lubridate)
+
+seed <- 2017
+
+data <- read_csv('https://raw.githubusercontent.com/MPCA-air/air-methods/master/airtoxics_data_2009_2013.csv')
+
+
+names(data)[1:10] <- c("AQSID", "POC", "Parameter", "Date","Result",
+                       "Null_Data_Code", "MDL", "Pollutant", "Year", "CAS")
+
+data <- data %>% 
+        filter(AQSID == 270370020) %>% 
+        mutate(`Monitoring Site` = AQSID, 
+               PollutantGroup    = Pollutant, 
+               Censored          = Result < MDL, 
+               Result            = ifelse(Censored, MDL, Result))
+
+
+UCL_95 = function(data, Boot_Repeats = 1000) {
+  
+  library(EnvStats)
+  
+  set.seed(2017)
+  
+  annual_AT_means <- function(air_toxics) {
+  
+  air_toxics <- mutate(air_toxics, 
+                       Year = year(ymd(Date)), 
+                       Quarter = quarter(ymd(Date)))
+  
+  sample_complete <- air_toxics %>% 
+                     group_by(AQSID, Pollutant, Year, Quarter, MDL) %>%
+                     summarise(Complete = ( (sum(!is.na(Result) ) / length(Result) ) >= 0.75 ) ) %>%
+                     mutate(Complete = ifelse(is.na(Complete), F, Complete) ) %>%
+                     group_by(AQSID, Pollutant, Year, MDL) %>%
+                     summarise(Complete = all(Complete) )
+  
+  enough_detects <- air_toxics %>% 
+                    group_by(AQSID, Pollutant, Year, MDL) %>%
+                    summarise(Detected = mean(Censored, na.rm = T) <= 0.8 )
+  
+  site_means <- air_toxics %>% 
+    group_by(AQSID, Pollutant, Year, MDL) %>% 
+    summarise(Mean = ifelse(length(unique(Result[!is.na(Result) & !Censored] ) ) < 2, NA,
+     ifelse (any(Censored, na.rm = T), elnormAltCensored(Result, Censored, method = "impute.w.mle", ci = F)$parameters[[1]], mean(Result, na.rm = T) ) ) )
+  
+  site_means <- left_join(site_means, sample_complete, by = c("AQSID", "Pollutant", "Year", "MDL") ) %>%
+    left_join(enough_detects, by = c("AQSID", "Pollutant", "Year", "MDL") ) %>% 
+    mutate(Mean = ifelse(Complete & Detected, Mean, NA), ID = paste(AQSID, Pollutant, Year) )
+
+  return(site_means)
+  
+}
+  
+  MLE_est <- function(data){
+    
+    results = data$Result
+    
+    censored = data$Censored
+    
+    n = sum(!is.na(results))
+    
+    if (length(unique(results[!is.na(results) & !censored] ) ) < 2 ) {
+      MLE_means = NA
+    }
+    
+    else {
+      random.rows = NULL  
+      
+      random.rows = sample(which(!is.na(censored) & (!censored) & !duplicated(results) ), 2, replace = FALSE)
+      
+      random.rows = c(random.rows, sample(which(!is.na(censored)), n-2, replace = TRUE))
+      
+      MLE_means = ifelse(sum(censored[random.rows], na.rm = T) == 0, mean(results[random.rows]), elnormAltCensored(results[random.rows], censored[random.rows], method = "impute.w.mle", ci = F)$parameters[[1]] )
+      
+    }
+    
+    return(MLE_means)
+  }
+  
+  data <- mutate(data, ID = paste(AQSID, Pollutant, Year))
+  
+  Bootstrap_means <- replicate(Boot_Repeats, (by(data, data$ID, MLE_est) ) )
+  
+  CL <- apply(Bootstrap_means, 1, function(x) sort(x)[ceiling(0.95 * Boot_Repeats)] )
+  
+  CL <- data.frame(ID = names(CL), UCL95 = unname(CL))
+  
+  annual_summary = left_join(annual_AT_means(data), CL, by = "ID") %>% mutate(UCL95 = ifelse(Complete & Detected, UCL95, NA) ) %>% select(-ID)
+  
+  return(annual_summary)
+  
+}
+
+set.seed(seed)
+
+annual_summary = UCL_95(data, 100)
+```
+
+</div>
+
+
+## Annual summaries for incomplete data {#incomplete}
+
+There may be situations when a monitoring site does not meet the 75% completeness requirement in each quarter of a year, but annual summary statistics are still necessary. In this case, calculate annual summary statistics as usual, but add a flag noting that the site did not meet completeness requirements. The minimum threshold of valid samples required for reporting annual summary statistics may be based on the professional judgement of data analysis staff, but must meet statistical test assumptions.
+
+
+## Comparison of data to inhalation health benchmarks {#health}
+
+__Chronic Inhalation Health Benchmarks__  
+The annual 95% upper confidence limit is compared to chronic inhalation health benchmarks which are chosen based on the MPCA/MDH hierarchy for inhalation health benchmarks information sources.These risk results are summarized differently for annual measured data reports (The Air Toxics Data Explorer) or if the comparison is used in a cumulative analysis (cumulative AERA) to inform air permitting or environmental review.
+
+<br>
+
+__Acute Inhalation Health Benchmarks__  
+The 2nd highest annual value multiplied by ten is compared to acute inhalation health benchmarks. This adjustment of the 24 hour integrated value approximates an hourly maximum, since acute inhalation health benchmarks are developed to be protective for high short-term exposures (about an hour).
+
+__Summary of risk estimates for cumulative Air Emission Risk Analaysis__  
+
+Cumulative AERAs use the mean cumulative risk estimate from the most recent three years of monitored data. For cumulative risks, we apply additivity and sum risk estimates across pollutants. Since all pollutants are not measured at each monitoring site, multiple sites are used to generate a cumulative risk estimate for various population densities. 
+
+Means are calculated for urban, mid-density and rural sites. Facilities within urban areas may also be provided with risk estimates for the closest or most representative monitor with all pollutants measured. 
+
+This is described further in the cumulative AERA section of the [AERA guide](https://www.pca.state.mn.us/air/aera-guide).
+
+<br>
+
+<br> [Back to top](#summary-statistics)
+
